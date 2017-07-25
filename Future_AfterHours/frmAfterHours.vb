@@ -831,11 +831,11 @@ Public Class frmAfterHours
                 lblNote.Text = "※五大、十大交易人列出全部月份契約" & vbCrLf & "※已將小型台指期貨依契約規模折算後併計"
             Case 3 'OP合計(口)
                 urlPrefix = "http://www.taifex.com.tw/chinese/3/7_12_4_tbl.asp"
-                GenerateInfo("選擇權口數合計（單位︰口）", urlPrefix, "", False, False, New WebPosition(1, 22, 9), -1)
+                GenerateInfo("選擇權口數合計（單位︰口）", urlPrefix, "", False, False, New WebPosition(1, 25, 9), -1)
                 lblNote.Text = ""
             Case 4 'OP合計(契約金額)
                 urlPrefix = "http://www.taifex.com.tw/chinese/3/7_12_4_tbl.asp"
-                GenerateInfo("選擇權契約金額合計（單位︰千元）", urlPrefix, "", False, False, New WebPosition(1, 22, 10), -1)
+                GenerateInfo("選擇權契約金額合計（單位︰千元）", urlPrefix, "", False, False, New WebPosition(1, 25, 10), -1)
                 lblNote.Text = ""
             Case 5 'CALL合計(五大十大全)
                 urlPrefix = "http://www.taifex.com.tw/chinese/3/7_12_5_tbl.asp"
