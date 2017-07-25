@@ -421,7 +421,7 @@ Public Class frmAfterHours
         If WTXflag = False Then
             Try
                 '以首日的月份取得加權指數網頁資訊原始碼
-                url = "http://www.twse.com.tw/ch/trading/indices/MI_5MINS_HIST/MI_5MINS_HIST.php?myear=" & days(0).yy - 1911 & "&mmon=" & days(0).mm
+                url = "http://www.twse.com.tw/indicesReport/MI_5MINS_HIST?response=html&date=" & days(0).full.ToString("yyyyMMdd")
                 html = getSourceCode(url, Encoding.GetEncoding("big5"))
                 mmTemp = days(0).mm
                 Dim twDate As New System.Globalization.TaiwanCalendar '定義民國紀年
@@ -430,7 +430,7 @@ Public Class frmAfterHours
                     '若day(i)的月份與目前加權指數表的月份(mmTemp)相同，直接從html中搜尋；若不是則重新下載加權指數表，並以mmTemp
                     '紀錄新加權指數表的月份
                     If days(I).mm <> mmTemp Then
-                        url = "http://www.twse.com.tw/ch/trading/indices/MI_5MINS_HIST/MI_5MINS_HIST.php?myear=" & days(I).yy - 1911 & "&mmon=" & days(I).mm
+                        url = "http://www.twse.com.tw/indicesReport/MI_5MINS_HIST?response=html&date=" & days(I).full.ToString("yyyyMMdd")
                         html = getSourceCode(url, Encoding.GetEncoding("big5"))
                         mmTemp = days(I).mm
                     End If
@@ -438,11 +438,11 @@ Public Class frmAfterHours
                         '以網頁中表5列j行1的資料(日期)作比對，若與day(j)相同則將表5列j行2~5的資料填
                         '入WTXindex(j)，需注意day(j)中日期是西元紀年，需轉為民國紀年(台灣證券交易所以民國紀年表示)
                         '因為前兩列為標題，所以j由3開始
-                        If Date.Parse(ExtractHTMLValue(html, New WebPosition(5, J, 1))).Equals(Date.Parse(twDate.GetYear(days(I).full).ToString + days(I).full.ToString("/MM/dd"))) Then
-                            WTXindex(I).open = Single.Parse(ExtractHTMLValue(html, New WebPosition(5, J, 2)))
-                            WTXindex(I).highest = Single.Parse(ExtractHTMLValue(html, New WebPosition(5, J, 3)))
-                            WTXindex(I).lowest = Single.Parse(ExtractHTMLValue(html, New WebPosition(5, J, 4)))
-                            WTXindex(I).close = Single.Parse(ExtractHTMLValue(html, New WebPosition(5, J, 5)))
+                        If Date.Parse(ExtractHTMLValue(html, New WebPosition(1, J, 1))).Equals(Date.Parse(twDate.GetYear(days(I).full).ToString + days(I).full.ToString("/MM/dd"))) Then
+                            WTXindex(I).open = Single.Parse(ExtractHTMLValue(html, New WebPosition(1, J, 2)))
+                            WTXindex(I).highest = Single.Parse(ExtractHTMLValue(html, New WebPosition(1, J, 3)))
+                            WTXindex(I).lowest = Single.Parse(ExtractHTMLValue(html, New WebPosition(1, J, 4)))
+                            WTXindex(I).close = Single.Parse(ExtractHTMLValue(html, New WebPosition(1, J, 5)))
                             Exit Do
                         End If
                         J = J + 1
@@ -594,7 +594,7 @@ Public Class frmAfterHours
         Next
         '***設定標題(Title)、繪圖區域(ChartArea)、資列序列(Series)、圖例(Legend)***
         '添加標題，使之出現在繪圖區域上方，利用Font Class設定字型
-        chtDisplay.Titles.Add(New Title(title, Docking.Top, New Font("標楷體", 18), Color.Black))
+        chtDisplay.Titles.Add(New Title(title, Docking.Top, New Font("微軟正黑體", 16), Color.Black))
         '添加繪圖區域main並初始化
         chtDisplay.ChartAreas.Add("main")
         With chtDisplay.ChartAreas("main")
@@ -616,10 +616,10 @@ Public Class frmAfterHours
             '設定座標軸標籤
             .AxisY.Title = "未平倉淨額"
             .AxisY.TextOrientation = TextOrientation.Stacked
-            .AxisY.TitleFont = New Font("標楷體", 12)
+            .AxisY.TitleFont = New Font("微軟正黑體", 12)
             .AxisY2.Title = "加權指數"
             .AxisY2.TextOrientation = TextOrientation.Stacked
-            .AxisY2.TitleFont = New Font("標楷體", 12)
+            .AxisY2.TitleFont = New Font("微軟正黑體", 12)
             '加權指數軸區間定為50
             .AxisY2.Interval = 50
         End With
